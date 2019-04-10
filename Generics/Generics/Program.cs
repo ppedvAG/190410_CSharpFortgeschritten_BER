@@ -42,17 +42,32 @@ namespace Generics
             //// Console.WriteLine(os.Pop()); 
             #endregion
 
-            // IntStack intStack = new IntStack();
-            // intStack.Push()
+            #region GenericStack<T>
+            //// IntStack intStack = new IntStack();
+            //// intStack.Push()
 
-            GenericStack<string> stringStack = new GenericStack<string>();
-            stringStack.Push("abcde");
+            //GenericStack<string> stringStack = new GenericStack<string>();
+            //stringStack.Push("abcde");
 
-            GenericStack<int> intStack = new GenericStack<int>();
-            intStack.Push(123);
+            //GenericStack<int> intStack = new GenericStack<int>();
+            //intStack.Push(123); 
+            #endregion
+
+            #region Generische Methode mit Constraints
+            //MachWas("Hallo Welt");
+            //MachWas(12);
+            //MachWas<double>(12.5); // Compiler leitet das vom Parameter ab
+            //MachWas(new ObjectStack()); // Compiler leitet das vom Parameter ab 
+            #endregion
 
             Console.WriteLine("---ENDE--");
             Console.ReadKey();
         }
+
+        //public static void MachWas<T>(T input) where T : ObjectStack,IDisposable,IEnumerable
+        //{
+        //    input.
+        //    Console.WriteLine(input);
+        //}
     }
 }
