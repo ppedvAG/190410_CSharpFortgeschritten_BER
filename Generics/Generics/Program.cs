@@ -60,6 +60,33 @@ namespace Generics
             //MachWas(new ObjectStack()); // Compiler leitet das vom Parameter ab 
             #endregion
 
+            // Übung:
+            // eigenes Dictionary implementieren
+            // indexer + TAB + TAB
+            // public TValue this[TKey index]
+            // {
+            //     get { return data[index]; }
+            //     set { data[index] = value; }
+            // }
+
+            // Features:
+            // .Add(key,value);
+            // indexer
+            // Constraint:
+            // TKey muss ein wertetyp sein (where T: struct)
+            // TValue muss ein referenztyp sein ( where T: class)
+
+            GenericDictionary<double, string> meineWerte = new GenericDictionary<double, string>();
+
+            meineWerte.Add(0.1, "Hallo");
+            meineWerte.Add(0.5, "Welt");
+            meineWerte.Add(1.0, "!");
+
+            Console.WriteLine(meineWerte[0.5]);
+            meineWerte[0.5] = "World";
+            Console.WriteLine(meineWerte[0.5]);
+
+
             Console.WriteLine("---ENDE--");
             Console.ReadKey();
         }
