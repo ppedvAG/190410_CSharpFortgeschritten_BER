@@ -76,24 +76,107 @@ namespace DelegatenUndEvents
             #endregion
 
             // Anwendungsfall 2#
-            Button b = new Button();
-            b.ClickEvent += MeineButtonClickLogik;
-            b.ClickEvent += Logger;
+            #region Button-Beispiel
+            //Button b = new Button();
+            //b.ClickEvent += MeineButtonClickLogik;
+            //b.ClickEvent += Logger;
 
-            b.Click();
-            // b.ClickEvent = null;           // absolut verboten !!!
-            b.Click();
-            b.Click();
-            b.ClickEvent -= Logger;
+            //b.Click();
+            //// b.ClickEvent = null;           // absolut verboten !!!
+            //b.Click();
+            //b.Click();
+            //b.ClickEvent -= Logger;
 
-            b.Click();
-            b.Click();
+            //b.Click();
+            //b.Click();
 
-            // b.ClickEvent?.Invoke();        // verboten !!!
+            //// b.ClickEvent?.Invoke();        // verboten !!! 
+            #endregion
+
+            // Suffix
+            // var z1 = 12;
+            // var z2 = 12.5;
+            // var z3 = 12.5f;
+            // var z4 = 12L;
+            // var z5 = 12m;
+            // var z6 = 12UL;
+
+            // LINQ
+            List<Person> personen = new List<Person>()
+            {
+                new Person{Vorname="Tom",Nachname="Ate",Alter=10,Kontostand=100m},
+                new Person{Vorname="Anna",Nachname="Nass",Alter=20,Kontostand=200m},
+                new Person{Vorname="Peter",Nachname="Silie",Alter=30,Kontostand=-300m},
+                new Person{Vorname="Franz",Nachname="Ose",Alter=40,Kontostand=4400m},
+                new Person{Vorname="Martha",Nachname="Pfahl",Alter=50,Kontostand=55500m},
+                new Person{Vorname="Albert",Nachname="Tross",Alter=60,Kontostand=-123100m},
+                new Person{Vorname="Axel",Nachname="Schweiß",Alter=70,Kontostand=100000m},
+                new Person{Vorname="Claire",Nachname="Grube",Alter=80,Kontostand=99999900m},
+                new Person{Vorname="Rainer",Nachname="Zufall",Alter=90,Kontostand=-123123123123100m},
+                new Person{Vorname="Anna",Nachname="Bolika",Alter=100,Kontostand=12345m},
+            };
+
+
+            // Szenario 1: Alle Vornamen in einem Array haben
+            //string[] alleVornamen = new string[personen.Count];
+            //for (int i = 0; i < alleVornamen.Length; i++)
+            //{
+            //    alleVornamen[i] = personen[i].Vorname;
+            //}
+
+            // Szenario 2: Alle Personen in einer Liste die Schulden haben:
+            //List<Person> allePersonenMitSchulden = new List<Person>();
+            //foreach (var item in personen)
+            //{
+            //    if (item.Kontostand < 0)
+            //        allePersonenMitSchulden.Add(item);
+            //}
+
+            // Szenario 3: Alle Personen in einer Liste die Schulden haben, Sortiert nach Nachname
+            // ....
+            // Szenario 4: Finde die Person über 60 mit dem höchsten Kontostand
+
+            // LINQ
+            // SELECT -> gib etwas zurück
+            string[] alleVorname = personen.Select(x => x.Vorname)
+                                           .ToArray();
+
+            // WHERE -> filtern
+            List<Person> allePersonenMitSchulden = personen.Where(x => x.Kontostand < 0)
+                                                           .ToList();
+
+            string[] nachnamenAllerPersonenMitSchulden = personen.Where(x => x.Kontostand < 0)
+                                                                 .Select(x => x.Nachname)
+                                                                 .ToArray();
+
+            // OrderBy / OrderByDescending => Sortieren nach Property XYZ
+            List<Person> allePersonenMitSchuldenSortiertNachNachname = personen.Where(x => x.Kontostand < 0)
+                                                                               .OrderByDescending(x => x.Nachname)
+                                                                               .ToList();
+            // First / Last  , FirstOrDefault/LastOrDefault
+            Person reichstePersonÜber60 = personen.Where(x => x.Alter >= 60)
+                                                  .OrderByDescending(x => x.Kontostand)
+                                                  .First();
+            // Take : Nimm X elemente heraus
+            Person[] reichsten5Personen = personen.OrderByDescending(x => x.Kontostand)
+                                                  .Take(5)
+                                                  .ToArray();
+
+            // Min,Max,Avarage,Sum
+            decimal durschnittlicherKontostand = personen.Sum(x => x.Kontostand);
+            decimal durchschnittlicherKontostandAllerPersonenMitSchulden = personen.Where(x => x.Kontostand < 0)
+                                                                                   .Average(x => x.Kontostand);
+
+            int anzahlAllerPersonenOhneSchulden = personen.Count(x => x.Kontostand > 0);
 
             Console.WriteLine("---ENDE---");
             Console.ReadKey();
         }
+
+        // private static string Selektor (Person x) => x.Vorname;
+        //{
+        //    return p.Vorname;
+        //}
 
         private static void Logger()
         {
