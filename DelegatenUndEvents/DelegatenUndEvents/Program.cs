@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -184,7 +185,11 @@ namespace DelegatenUndEvents
             Fixture fix = new Fixture();
 
             Console.WriteLine("---Personen werden generiert---");
-            IEnumerable<Person> personen = fix.CreateMany<Person>(100_000);
+            Person[] personen = new Person[300_000];
+            Parallel.For(0, 300_000, i =>
+              {
+                  personen[i] = fix.Create<Person>();
+              });
             Console.WriteLine("---Personen wurdcen generiert---");
 
             Stopwatch watch = new Stopwatch();
@@ -192,7 +197,11 @@ namespace DelegatenUndEvents
             // Finde die Person mit dem höchsten Durchschnittsalter der Haustiere
             Console.WriteLine("Variante mit LINQ:");
             watch.Start();
-            Person result = personen.OrderByDescending(p => p.Haustiere.Average(h => h.Alter))
+            Person result = personen
+                                    //.AsParallel()
+                                    //.WithDegreeOfParallelism(4)
+                                    //.WithExecutionMode(ParallelExecutionMode.ForceParallelism) // Erzwingen
+                                    .OrderByDescending(p => p.Haustiere.Average(h => h.Alter))
                                     .First();
             watch.Stop();
             Console.WriteLine($"Person: {result.Vorname},Durschnitt {result.Haustiere.Average(x => x.Alter)}, Dauer: {watch.ElapsedMilliseconds}ms");
@@ -238,6 +247,24 @@ namespace DelegatenUndEvents
                 }
                 double durschnitt = gesamtalter / person.Haustiere.Count();
 
+                if (durschnitt > currentDurchschnitt)
+                {
+                    currentDurchschnitt = durschnitt;
+                    currentResult = person;
+                }
+            }
+            watch.Stop();
+            Console.WriteLine($"Person: {result.Vorname}, Durschnitt:{currentDurchschnitt}, Dauer: {watch.ElapsedMilliseconds}ms");
+
+            Console.WriteLine("Variante Iterativ mit Avarage aus LINQ:");
+
+            watch.Restart();
+
+            currentResult = null;
+            currentDurchschnitt = 0;
+            foreach (Person person in personen)
+            {
+                double durschnitt = person.Haustiere.Average(x => x.Alter);
                 if (durschnitt > currentDurchschnitt)
                 {
                     currentDurchschnitt = durschnitt;
