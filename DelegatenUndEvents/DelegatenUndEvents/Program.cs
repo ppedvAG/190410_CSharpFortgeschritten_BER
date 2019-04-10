@@ -169,6 +169,16 @@ namespace DelegatenUndEvents
 
             int anzahlAllerPersonenOhneSchulden = personen.Count(x => x.Kontostand > 0);
 
+
+            // Übung:
+            // 1) Finde die Person mit dem höchsten Kontostand, die unter 50 Jahre alt ist
+            // 2) Summe aller Schulden
+            // 3) Durschnittsalter aller Personen mit negativem Kontostand
+            // 4) Die ersten 3 Personen unter 70 Jahre mit positivem Kontostand
+            // 5) Liste an Personen mit Nachnamenlänge < 5 Zeichen, sortiert nach Alter absteigend
+
+
+
             Console.WriteLine("---ENDE---");
             Console.ReadKey();
         }
