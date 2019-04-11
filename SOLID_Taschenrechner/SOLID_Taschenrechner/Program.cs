@@ -13,7 +13,7 @@ namespace SOLID_Taschenrechner
         static void Main(string[] args)
         {
             IParser parser = new RegexParser();
-            IRechner rechner = new SimplerRechner();
+            IRechner rechner = new ModulRechner(new Addition(), new Subtraktion());
             new KonsolenUI(parser,rechner).Start();
         }
     }
@@ -78,5 +78,40 @@ namespace SOLID_Taschenrechner
             else
                 throw new ArgumentException("Operator ist unbekannt");
         }
+    }
+    class ModulRechner : IRechner
+    {
+        public ModulRechner(params IRechneoperation[] rechenoperationen) //ToDo: params
+        {
+            this.rechenoperationen = rechenoperationen;
+        }
+        private readonly IRechneoperation[]  rechenoperationen;
+
+        public int Berechne(Formel formel)
+        {
+            IRechneoperation auszuführendeOperation = rechenoperationen.FirstOrDefault(x => x.Operator == formel.Operator);
+
+            if (auszuführendeOperation is null)
+                throw new InvalidOperationException($"Die Rechenoperation für den Operator {formel.Operator} wird nicht unterstützt");
+            else
+                return auszuführendeOperation.Ausführen(formel.Operand1, formel.Operand2);
+        }
+    }
+
+    interface IRechneoperation
+    {
+        string Operator { get; }
+        int Ausführen(int operand1, int operand2);
+    }
+
+    class Addition : IRechneoperation
+    {
+        public string Operator => "+";
+        public int Ausführen(int operand1, int operand2) => operand1 + operand2;
+    }
+    class Subtraktion : IRechneoperation
+    {
+        public string Operator => "-";
+        public int Ausführen(int operand1, int operand2) => operand1 - operand2;
     }
 }
