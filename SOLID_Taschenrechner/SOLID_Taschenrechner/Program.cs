@@ -11,7 +11,9 @@ namespace SOLID_Taschenrechner
         // Bootstrapping
         static void Main(string[] args)
         {
-            new KonsolenUI().Start();
+            IParser parser = new StringSplitParser();
+            IRechner rechner = new SimplerRechner();
+            new KonsolenUI(parser,rechner).Start();
         }
     }
 
@@ -22,7 +24,11 @@ namespace SOLID_Taschenrechner
         public string Operator { get; set; }
     }
 
-    class StringSplitParser
+    interface IParser
+    {
+        Formel Parse(string input);
+    }
+    class StringSplitParser : IParser
     {
         public Formel Parse(string input)
         {
@@ -37,7 +43,11 @@ namespace SOLID_Taschenrechner
         }
     }
 
-    class SimplerRechner
+    interface IRechner
+    {
+        int Berechne(Formel formel);
+    }
+    class SimplerRechner : IRechner
     {
         public int Berechne(Formel formel)
         {
@@ -48,27 +58,6 @@ namespace SOLID_Taschenrechner
             // ...
             else
                 throw new ArgumentException("Operator ist unbekannt");
-        }
-    }
-
-    class KonsolenUI
-    {
-        // Workflow
-        public void Start()
-        {
-            Console.WriteLine("Bitte geben Sie die Formel ein:");
-            string input = Console.ReadLine(); // "2 + 2"
-
-            StringSplitParser parser = new StringSplitParser();
-            Formel formel = parser.Parse(input);
-
-            SimplerRechner rechner = new SimplerRechner();
-            int ergebnis = rechner.Berechne(formel);
-
-            Console.WriteLine($"Das Ergebnis ist {ergebnis}");
-
-            Console.WriteLine("---ENDE---");
-            Console.ReadKey();
         }
     }
 }
