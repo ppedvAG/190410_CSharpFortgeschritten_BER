@@ -63,6 +63,10 @@
       <Project>{58F9F17D-02F7-4175-AF0E-716AD3089E3F}</Project>
       <Name>SOLID_Taschenrechner.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SOLID_Taschenrechner.PaidFeatures\SOLID_Taschenrechner.PaidFeatures.csproj">
+      <Project>{5C700351-E8AD-4FF9-932F-1FC5ED05E3A1}</Project>
+      <Name>SOLID_Taschenrechner.PaidFeatures</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
