@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -24,31 +25,52 @@ namespace AsyncAwaitInWPF
         public MainWindow()
         {
             InitializeComponent();
-            ProgressBarIstVoll += Callback;
         }
 
-        private void Callback()
-        {
-            MessageBox.Show("Ende");
-        }
+        // async void <== Nur in Ausnahmefällen machen !
+        // async Task
+        // async Task<T>
 
-        private event Action ProgressBarIstVoll;
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Start");
 
-            Task t1 = Task.Run(new Action(FülleProgressBar));
+            //Task t1 = FülleProgressBarAsync();
+            //// ...
+            //await t1; // Man kann auch "später" warten
+            Task t1 = FülleProgressBarAsync();
+            Thread.Sleep(1000);
+            Task t2 = FülleProgressBarAsync();
+
+            try
+            {
+                await t1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            //StreamReader sr = new StreamReader("demo.txt");
+
+            //string zeile = sr.ReadLineAsync().Result; // Synchon und blockiert
+            //string zeile2 = await sr.ReadLineAsync(); // Asynchron, blockiert nicht
+
+            MessageBox.Show("Ende");
         }
 
-        private void FülleProgressBar()
+        private Task FülleProgressBarAsync()
         {
-            for (int i = 0; i <= 100; i++)
+            return Task.Run(() =>
             {
-                Dispatcher.Invoke(() => progressBarWert.Value = i);
-                Thread.Sleep(100);
-            }
-            ProgressBarIstVoll?.Invoke();
+                for (int i = 0; i <= 100; i++)
+                {
+                    Dispatcher.Invoke(() => progressBarWert.Value = i);
+                    Thread.Sleep(100);
+                    if (i == 50)
+                        throw new FormatException();
+                }
+            });
         }
     }
 }
