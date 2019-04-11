@@ -18,17 +18,8 @@ namespace SOLID_Taschenrechner
         }
     }
 
-    class Formel
-    {
-        public int Operand1 { get; set; }
-        public int Operand2 { get; set; }
-        public string Operator { get; set; }
-    }
 
-    interface IParser
-    {
-        Formel Parse(string input);
-    }
+
     class StringSplitParser : IParser
     {
         public Formel Parse(string input)
@@ -62,10 +53,6 @@ namespace SOLID_Taschenrechner
         }
     }
 
-    interface IRechner
-    {
-        int Berechne(Formel formel);
-    }
     class SimplerRechner : IRechner
     {
         public int Berechne(Formel formel)
@@ -98,11 +85,7 @@ namespace SOLID_Taschenrechner
         }
     }
 
-    interface IRechneoperation
-    {
-        string Operator { get; }
-        int Ausführen(int operand1, int operand2);
-    }
+
 
     class Addition : IRechneoperation
     {
