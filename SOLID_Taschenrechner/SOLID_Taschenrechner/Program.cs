@@ -18,7 +18,11 @@ namespace SOLID_Taschenrechner
             int zahl2 = Convert.ToInt32(operanden[2]);
             string op = operanden[1];
 
-            int ergebnis = zahl1 + zahl2;
+            int ergebnis = 0;
+            if(op == "+")
+                ergebnis = zahl1 + zahl2;
+            else if(op == "-")
+                ergebnis = zahl1 - zahl2;
 
             Console.WriteLine($"Das Ergebnis ist {ergebnis}");
 
