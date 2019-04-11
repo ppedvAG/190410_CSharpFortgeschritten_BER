@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AsyncAwaitInWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="180" Width="250" ResizeMode="NoResize">
+    <StackPanel Margin="20">
+        <TextBox Margin="0,10"/>
+        <Button Content="Klick mich !" Margin="0,10" Click="Button_Click"/>
+        <ProgressBar x:Name="progressBarWert" Minimum="0" Maximum="100" Height="20"/>
+    </StackPanel>
 </Window>
