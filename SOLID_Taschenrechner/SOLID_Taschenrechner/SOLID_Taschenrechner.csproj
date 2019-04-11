@@ -50,5 +50,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SOLID_Taschenrechner.FreeFeatures\SOLID_Taschenrechner.FreeFeatures.csproj">
+      <Project>{A33020E2-AEB8-472C-9E2C-F7CDF53C1A0C}</Project>
+      <Name>SOLID_Taschenrechner.FreeFeatures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SOLID_Taschenrechner.Logik\SOLID_Taschenrechner.Logik.csproj">
+      <Project>{A8624EBB-B49C-4A58-871E-F865883433D5}</Project>
+      <Name>SOLID_Taschenrechner.Logik</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SOLID_Taschenrechner.Model\SOLID_Taschenrechner.Model.csproj">
+      <Project>{58F9F17D-02F7-4175-AF0E-716AD3089E3F}</Project>
+      <Name>SOLID_Taschenrechner.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

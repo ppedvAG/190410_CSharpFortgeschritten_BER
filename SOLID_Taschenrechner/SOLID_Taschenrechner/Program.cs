@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SOLID_Taschenrechner.FreeFeatures;
+using SOLID_Taschenrechner.Logik;
+using SOLID_Taschenrechner.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

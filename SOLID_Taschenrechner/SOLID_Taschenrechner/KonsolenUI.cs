@@ -1,8 +1,9 @@
-﻿using System;
+﻿using SOLID_Taschenrechner.Model;
+using System;
 
 namespace SOLID_Taschenrechner
 {
-    class KonsolenUI
+    class KonsolenUI // Könnte man zb auch zu einem ViewModel umbauen
     {
         public KonsolenUI(IParser parser, IRechner rechner)
         {
