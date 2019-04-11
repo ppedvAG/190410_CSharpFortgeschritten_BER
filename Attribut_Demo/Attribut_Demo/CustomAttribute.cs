@@ -27,7 +27,9 @@ namespace Attribut_Demo
         [Custom(Text ="Das ist ein Property")]
         [Custom(Text ="Test")]
         [Custom(Text ="Noch mehr Metadaten :) ")]
+        [Validation(MaxLength =255)]
         public string Vorname { get; set; }
+        [Validation(MaxLength = 10)]
         public string Nachname { get; set; }
         public byte Alter { get; set; }
         public decimal Kontostand { get; set; }

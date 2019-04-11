@@ -41,6 +41,18 @@ namespace Attribut_Demo
             PropertyInfo vornamePropertyInfo =  personenType.GetProperty("Vorname");
             object[] vornameAttributes = vornamePropertyInfo.GetCustomAttributes(true);
 
+            Person p = new Person { Vorname = "Tom", Nachname = "Ate", Alter = 10, Kontostand = 100 };
+
+            if(p.Validate())
+            {
+                // mach weiter
+                Console.WriteLine("Validierung erfolgreich");
+
+            }
+            else
+            {
+                Console.WriteLine("Validierung fehlgeschlagen");
+            }
 
 
             Console.WriteLine("---ENDE😘😘😘---");
