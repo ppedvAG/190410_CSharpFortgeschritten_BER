@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -114,10 +115,58 @@ namespace TPL
             //Console.WriteLine($"IsCanceled:{t1.IsCanceled}"); 
             #endregion
 
+            // Parallel.Invoke() // => Ruft mehrere Actions parallel auf
+
+            int[] durchgänge = { 10_000, 50_000, 100_000, 500_000, 1_000_000, 5_000_000, 10_000_000, 50_000_000,100_000_000 };
+            Stopwatch watch = new Stopwatch();
+            for (int i = 0; i < durchgänge.Length; i++)
+            {
+                Console.WriteLine($"------------- Durchgang {durchgänge[i]} ------------");
+                watch.Restart();
+                ForSchleife(durchgänge[i]);
+                watch.Stop();
+                Console.WriteLine($"For: {watch.ElapsedMilliseconds}ms");
+
+                watch.Restart();
+                ForParallel(durchgänge[i]);
+                watch.Stop();
+                Console.WriteLine($"Parallel: {watch.ElapsedMilliseconds}ms");
+                Console.WriteLine($"----------------------------------------------------");
+
+            }
+
+            //Parallel.ForEach(durchgänge, item =>
+            //{
+                    // Logik
+            //});
 
             Console.WriteLine("---ENDE---");
             Console.ReadKey();
         }
+
+        private static void ForSchleife(int durchgänge)
+        {
+            double[] werte = new double[durchgänge];
+            for (int i = 0; i < durchgänge; i++)
+            {
+                werte[i] = Math.Sqrt(Math.Pow(i, 0.33333) * Math.Sin(i)) - Math.Pow(i, 0.777);
+            }
+        }
+
+        private static void ForParallel(int durchgänge)
+        {
+            double[] werte = new double[durchgänge];
+            Parallel.For(0, durchgänge,i =>  //,new ParallelOptions { MaxDegreeOfParallelism = 2 }, i =>
+             {
+                 werte[i] = Math.Sqrt(Math.Pow(i, 0.33333) * Math.Sin(i)) - Math.Pow(i, 0.777);
+             });
+        }
+
+
+
+
+
+
 
         private static string GibDatum()
         {
