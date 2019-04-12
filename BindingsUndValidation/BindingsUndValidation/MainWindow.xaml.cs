@@ -23,6 +23,9 @@ namespace BindingsUndValidation
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
+
+        public string Email { get; set; }
     }
 }

@@ -19,7 +19,7 @@
                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
             </ControlTemplate>
-            
+
         </Grid.Resources>
 
         <Slider x:Name="sliderWert" Minimum="0" Maximum="100" HorizontalAlignment="Left" Margin="13,10,0,0" VerticalAlignment="Top" Width="190"/>
@@ -31,10 +31,10 @@
         <Rectangle Visibility="{Binding ElementName=checkBoxSichtbar,Path=IsChecked,Converter={StaticResource bool2vis}}"
                    Fill="{Binding ElementName=textBoxFarbe,Path=Text,Converter={StaticResource farbkonverter}}"
                    HorizontalAlignment="Left" Height="100" Margin="244,35,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
-        <CheckBox x:Name="checkBoxSichtbar" Content="Rectangle sichtbar?" HorizontalAlignment="Left" Margin="349,35,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBoxVorname" HorizontalAlignment="Left" Height="23" Margin="13,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="textBoxNachname" HorizontalAlignment="Left" Height="23" Margin="13,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBlock HorizontalAlignment="Left" Margin="13,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="182">
+        <CheckBox x:Name="checkBoxSichtbar" IsChecked="True" Content="Rectangle sichtbar?" HorizontalAlignment="Left" Margin="349,35,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBoxVorname" HorizontalAlignment="Left" Height="23" Margin="13,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBoxNachname" HorizontalAlignment="Left" Height="23" Margin="13,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="13,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="182">
             <TextBlock.Text>
 
                 <MultiBinding StringFormat="Ganzer Name: {0} {1}">
@@ -59,8 +59,8 @@
         <Rectangle 
             Height="100" 
             Width="{Binding RelativeSource={RelativeSource Mode=Self},Path=Height}"
-            HorizontalAlignment="Left" Margin="13,219,0,0" Stroke="Black" VerticalAlignment="Top"/>
-        <Grid Background="LightSeaGreen" HorizontalAlignment="Left" Height="163" Margin="160,219,0,0" VerticalAlignment="Top" Width="234">
+            HorizontalAlignment="Left" Margin="13,167,0,0" Stroke="Black" VerticalAlignment="Top"/>
+        <Grid Background="LightSeaGreen" HorizontalAlignment="Left" Height="163" Margin="118,167,0,0" VerticalAlignment="Top" Width="234">
             <Grid Background="DeepSkyBlue" HorizontalAlignment="Left" Height="80" Margin="43,29,0,0" VerticalAlignment="Top" Width="127">
                 <Label Content="Hallo Welt" FontSize="24"
                        Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid,AncestorLevel=3},Path=Background}"/>
@@ -70,8 +70,65 @@
                 Foreground="Orange"
                 Background="DarkViolet"
                 Template="{StaticResource GeilesButtonTemplate}"
-                HorizontalAlignment="Left" Margin="471,256,0,0" VerticalAlignment="Top"
+                HorizontalAlignment="Left" Margin="10,337,0,0" VerticalAlignment="Top"
                 Width="211"
                 Height="73"/>
+        <GroupBox Header="Validation" HorizontalAlignment="Left" Height="179" Margin="391,231,0,0" VerticalAlignment="Top" Width="383">
+            <Grid>
+                <Slider x:Name="sliderValidation" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <!-- originale textbox -->
+                                <AdornedElementPlaceholder x:Name="originaleTextbox"/>
+                                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="20"/>
+                            </StackPanel>
+                            <!--<Border BorderBrush="Blue" BorderThickness="1">
+                                <AdornedElementPlaceholder/>
+                            </Border>-->
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                    <TextBox.Text>
+                        <Binding ElementName="sliderValidation" Path="Value" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:StringZuIntValidationRule Parameter="Demo"
+                                                                 ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="10,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="186">
+                    <TextBox.Text>
+                        <Binding Path="Email" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:EmailValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <AdornedElementPlaceholder x:Name="originaleTextbox"/>
+                                <TextBlock Text="{Binding [0].ErrorContent}" FontSize="10">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="Red"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="Keine gültige E-Mail">
+                                                    <Setter Property="Foreground" Value="Green"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </TextBox>
+
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>
