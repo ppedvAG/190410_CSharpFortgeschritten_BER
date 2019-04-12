@@ -1,0 +1,191 @@
+EMail: michaelz@ppedv.at   /.de
+--> ab 20.5 wieder erreichbar 8)
+
+
+Hallo vom Michi
+Hi Bianca ist auch da
+André auch :-)
+
+Links:
+https://github.com/ppedvAG/190410_CSharpFortgeschritten_BER
+https://referencesource.microsoft.com/
+https://code.msdn.microsoft.com/101-LINQ-Samples-3fb9811b
+https://devblogs.microsoft.com/devops/live-dependency-validation-in-visual-studio-2017/
+https://sec.ch9.ms/sessions/69613110-c334-4f25-bb36-08e5a93456b5/170ValidateArchitectureDependenciesWithVisualStudio.mp4
+https://github.com/ppedvAG/190410_CSharpFortgeschritten_BER/blob/master/DelegatenUndEvents/DelegatenUndEvents/Program.cs
+http://visualstudioshortcuts.com/2017/
+https://davidzych.com/abusing-emoji-in-windows/
+https://github.com/Fody/PropertyChanged
+
+https://app.quicktype.io
+
+
+// Übung:
+// eigenes Dictionary implementieren
+// indexer + TAB + TAB
+// public TValue this[TKey index]
+// {
+//     get { return data[index]; }
+//     set { data[index] = value; }
+// }
+
+// Features:
+// .Add(key,value);
+// indexer
+// Constraint:
+// TKey muss ein wertetyp sein (where T: struct)
+// TValue muss ein referenztyp sein ( where T: class
+
+
+    class GenericDictionary<TKey,TValue> where TKey : struct
+                                         where TValue : class
+    {
+        public GenericDictionary() : this(4){}
+        public GenericDictionary(int capacity)
+        {
+            keys = new TKey[capacity];
+            values = new TValue[capacity];
+            index = 0;
+        }
+        private int index;
+        private TKey[] keys;
+        private TValue[] values;
+
+        public void Add(TKey newKey, TValue newValue)
+        {
+            if (keys.Contains(newKey))
+                throw new ArgumentException("Key ist bereits vorhanden");
+
+            if(index == keys.Length)
+            {
+                Array.Resize(ref keys, keys.Length * 2);
+                Array.Resize(ref values, values.Length * 2);
+            }
+
+            keys[index] = newKey;
+            values[index] = newValue;
+
+            index++;
+        }
+
+        public TValue this[TKey key]
+        {
+            get
+            {
+                if (! keys.Contains(key))
+                    throw new ArgumentException("Key ist nicht vorhanden");
+
+                int index = Array.IndexOf(keys, key); // zb. 5
+                return values[index]; // Wenn der Key bei 5 ist, ist die Value ebenfalls bei 5
+            }
+            set
+            {
+                if (!keys.Contains(key))
+                    throw new ArgumentException("Key ist nicht vorhanden");
+
+                int index = Array.IndexOf(keys, key); // zb. 5
+                values[index] = value;
+            }
+        }
+    }
+    
+        class Person
+    {
+        public string Vorname { get; set; }
+        public string Nachname { get; set; }
+        public byte Alter { get; set; }
+        public decimal Kontostand { get; set; }
+    }
+    
+    // ------------- Reflection
+                //int zahl = 42;
+            //Type intType = zahl.GetType();
+            //Console.WriteLine(intType);
+
+            //// Neue Objekte basierend auf Typeninformation erstellen:
+            //object instanz = Activator.CreateInstance(typeof(StringBuilder));
+            //Console.WriteLine(instanz);
+            //Console.WriteLine(instanz.GetType());
+
+            // Assembly (.dll oder .exe) zur Laufzeit laden:
+            Assembly demoAssembly = Assembly.LoadFrom("Demo.dll");
+            // Type[] types = demoAssembly.GetTypes(); // <--- ALle
+            Type taschenrechnerType = demoAssembly.GetType("Demo.Taschenrechner");
+
+            // Instanz von einem Objekt aus einer fremden Assembly erstellen
+            object taschenrechnerInstanz = Activator.CreateInstance(taschenrechnerType);
+
+            // Methode auf der Instanz ausführen
+            MethodInfo addMethodInfo =  taschenrechnerType.GetRuntimeMethod("Add", new Type[] { typeof(int), typeof(int) });
+            var result  = addMethodInfo.Invoke(taschenrechnerInstanz, new object[] { 12, 55 });
+
+            // Statische Klasse: von einer statischen Klasse eine Methode aufrufen (Convert.ToInt32)
+            // typeof(StatischeKlasse) -> statische Methode wird aufgerufen
+            // var result  = addMethodInfo.Invoke(typeof(Convert), new object[] { 12, 55 });
+            Console.WriteLine(result);
+// -----------------------------------------------
+
+
+            int[] durchgänge = { 10_000, 50_000, 100_000, 500_000, 1_000_000, 5_000_000, 10_000_000, 50_000_000,100_000_000 };
+            Stopwatch watch = new Stopwatch();
+            for (int i = 0; i < durchgänge.Length; i++)
+            {
+                Console.WriteLine($"------------- Durchgang {durchgänge[i]} ------------");
+                watch.Restart();
+                ForSchleife(durchgänge[i]);
+                watch.Stop();
+                Console.WriteLine($"For: {watch.ElapsedMilliseconds}ms");
+
+                watch.Restart();
+                ForParallel(durchgänge[i]);
+                watch.Stop();
+                Console.WriteLine($"Parallel: {watch.ElapsedMilliseconds}ms");
+                Console.WriteLine($"----------------------------------------------------");
+
+            }
+
+            Console.WriteLine("---ENDE---");
+            Console.ReadKey();
+        }
+
+        private static void ForSchleife(int durchgänge)
+        {
+            double[] werte = new double[durchgänge];
+            for (int i = 0; i < durchgänge; i++)
+            {
+                werte[i] = Math.Sqrt(Math.Pow(i, 0.33333) * Math.Sin(i)) - Math.Pow(i, 0.777);
+            }
+        }
+
+        private static void ForParallel(int durchgänge)
+        {
+            double[] werte = new double[durchgänge];
+            Parallel.For(0, durchgänge,new ParallelOptions { MaxDegreeOfParallelism = 2 }, i =>
+             {
+                 werte[i] = Math.Sqrt(Math.Pow(i, 0.33333) * Math.Sin(i)) - Math.Pow(i, 0.777);
+             });
+        }
+        
+        
+        
+        
+        FlowDocument doc = new FlowDocument();
+
+			Paragraph p = new Paragraph(new Run("Hello, world!"));
+			p.FontSize = 36;
+			doc.Blocks.Add(p);
+      
+      
+      
+       <RichTextBox>
+     <FlowDocument PageHeight="180">
+         <Paragraph>
+             <Run Text="{Binding Text, Mode=TwoWay}"/>
+          </Paragraph>
+     </FlowDocument>
+ </RichTextBox>
+ 
+ 
+ 
+      
+      
