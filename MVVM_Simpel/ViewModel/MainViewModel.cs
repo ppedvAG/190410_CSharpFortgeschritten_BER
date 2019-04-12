@@ -2,14 +2,16 @@
 using Model.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using ViewModel.Helpers;
 
 namespace ViewModel
 {
-    public class MainViewModel
+    public class MainViewModel : BaseViewModel
     {
         public MainViewModel()
         {
@@ -19,8 +21,12 @@ namespace ViewModel
         }
         private readonly PersonenService service;
 
-
-        public List<Person> Personenliste { get; set; }
+        private List<Person> personenliste;
+        public List<Person> Personenliste
+        {
+            get => personenliste;
+            set => Set(ref personenliste, value);
+        }
         public ICommand GetPersonenCommand { get; set; }
         private void GetPersonen(object obj)
         {

@@ -15,7 +15,18 @@
     
     <StackPanel Margin="20">
         <Button Content="Lade Personen !" Command="{Binding GetPersonenCommand}" />
-        <ListView ItemsSource="{Binding Personenliste}" />
+        <ListView ItemsSource="{Binding Personenliste}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Vorname,StringFormat='Vorname: {0}'}"/>
+                        <TextBlock Text="{Binding Nachname,StringFormat='Nachname: {0}'}"/>
+                        <TextBlock Text="{Binding Alter,StringFormat='Alter: {0}'}"/>
+                        <TextBlock Text="{Binding Kontostand,StringFormat='Kontostand: {0:C4}'}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackPanel>
     
 </Window>
