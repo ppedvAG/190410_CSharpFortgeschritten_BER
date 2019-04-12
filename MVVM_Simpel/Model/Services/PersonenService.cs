@@ -1,11 +1,12 @@
 ﻿using Model.Contracts;
+using Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Model.Services
 {
-    public class PersonenService
+    public class PersonenService : IPersonenService
     {
         public IEnumerable<Person> GetPersonen()
         {

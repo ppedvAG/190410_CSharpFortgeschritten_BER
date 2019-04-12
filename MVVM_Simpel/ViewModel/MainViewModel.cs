@@ -1,4 +1,5 @@
 ﻿using Model.Contracts;
+using Model.Interfaces;
 using Model.Services;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,12 @@ namespace ViewModel
 {
     public class MainViewModel : BaseViewModel
     {
-        public MainViewModel()
+        public MainViewModel(IPersonenService service)
         {
-            // Kontrollfreak-Antipattern
-            service = new PersonenService();
+            this.service = service;
             GetPersonenCommand = new RelayCommand(GetPersonen);
         }
-        private readonly PersonenService service;
+        private readonly IPersonenService service;
 
         private List<Person> personenliste;
         public List<Person> Personenliste

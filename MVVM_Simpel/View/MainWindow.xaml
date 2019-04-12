@@ -6,12 +6,13 @@
         xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="MVVM Simpel😘❤💩😡😒😒😍" Height="450" Width="800">
+        Title="MVVM Simpel😘❤💩😡😒😒😍" Height="450" Width="800"
+        DataContext="{Binding Source={StaticResource Locator},Path=Main}">
 
-    <Window.DataContext>
-        <!-- Funktioniert nur mit einem parameterlosen Konstruktor !!! -->
+    <!--<Window.DataContext>
+        --><!-- Funktioniert nur mit einem parameterlosen Konstruktor !!! --><!--
         <vm:MainViewModel />
-    </Window.DataContext>
+    </Window.DataContext>-->
     
     <StackPanel Margin="20">
         <Button Content="Lade Personen !" Command="{Binding GetPersonenCommand}" />
