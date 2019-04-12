@@ -15,17 +15,19 @@ namespace TinyEd.Helpers
         {
             messageService = new WPFMessageService();
             fileSystemService = new FileSystemService();
+            dialogService = new Win32DialogService();
         }
 
         private readonly IMessageService messageService;
         private readonly IFileSystemService fileSystemService;
+        private readonly IDialogService dialogService;
 
         private MainViewModel main;
         public MainViewModel Main
         {
             get
             {
-                main = main ?? new MainViewModel(messageService, fileSystemService);
+                main = main ?? new MainViewModel(messageService, fileSystemService, dialogService);
                 return main;
             }
         }

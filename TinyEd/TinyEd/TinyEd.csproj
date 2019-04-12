@@ -65,12 +65,14 @@
     </Compile>
     <Compile Include="Helpers\BaseViewModel.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
+    <Compile Include="Models\Interfaces\IDialogService.cs" />
     <Compile Include="Models\Interfaces\IFileSystemService.cs" />
     <Compile Include="Models\Interfaces\IMessageService.cs" />
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="Models\Services\FileStreamFileSystemService.cs" />
     <Compile Include="Models\Services\FileSystemService.cs" />
     <Compile Include="Models\Services\StreamReaderFileSystemService.cs" />
+    <Compile Include="Models\Services\Win32DialogService.cs" />
     <Compile Include="Models\Services\WPFMessageService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">

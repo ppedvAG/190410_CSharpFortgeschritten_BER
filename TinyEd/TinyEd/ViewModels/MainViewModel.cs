@@ -14,13 +14,15 @@ namespace TinyEd.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public MainViewModel(IMessageService messageService,IFileSystemService fileSystemService)
+        public MainViewModel(IMessageService messageService, IFileSystemService fileSystemService, IDialogService dialogService)
         {
             this.messageService = messageService;
             this.fileSystemService = fileSystemService;
+            this.dialogService = dialogService;
         }
         private readonly IFileSystemService fileSystemService;
         private readonly IMessageService messageService;
+        private readonly IDialogService dialogService;
 
 
         private string document;
@@ -35,7 +37,17 @@ namespace TinyEd.ViewModels
         {
             get
             {
-                speichernCommand = speichernCommand ?? new RelayCommand(parameter => fileSystemService.WriteFile("demo.txt",Document));
+                speichernCommand = speichernCommand ?? new RelayCommand(parameter =>
+                {
+                    string filename = dialogService.SaveFileDialog("Textdokument | *.txt");
+                    if (filename != string.Empty)
+                    {
+                        fileSystemService.WriteFile(filename, Document);
+                        messageService.SendMessage("Datei wurde erfolgreich gespeichert!");
+                    }
+                    else
+                        messageService.SendMessage("Speichervorgang abgebrochen");
+                });
                 return speichernCommand;
             }
         }
@@ -45,7 +57,17 @@ namespace TinyEd.ViewModels
         {
             get
             {
-                öffnenCommand = öffnenCommand ?? new RelayCommand(parameter => Document = fileSystemService.ReadFile("demo.txt"));
+                öffnenCommand = öffnenCommand ?? new RelayCommand(parameter =>
+                {
+                    string filename = dialogService.OpenFileDialog("Textdokument | *.txt");
+                    if (filename != string.Empty)
+                    {
+                        Document = fileSystemService.ReadFile(filename);
+                        messageService.SendMessage("Datei wurde erfolgreich geöffnet!");
+                    }
+                    else
+                        messageService.SendMessage("Vorgang abgebrochen");                    
+                });
                 return öffnenCommand;
             }
         }
