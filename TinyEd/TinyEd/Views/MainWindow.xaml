@@ -1,0 +1,33 @@
+﻿<Window x:Class="TinyEd.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:v="clr-namespace:TinyEd.Views"
+        xmlns:local="clr-namespace:TinyEd"
+        mc:Ignorable="d"
+        Title="TinyEd 😃" Height="450" Width="800"
+        DataContext="{Binding Source={StaticResource Locator},Path=Main}">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Datei">
+                <MenuItem Header="Speichern unter" Command="{Binding SpeichernCommand}"/>
+                <MenuItem Header="Öffnen" Command="{Binding ÖffnenCommand}"/>
+                <Separator/>
+                <MenuItem Header="Beenden" Command="{Binding BeendenCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Hilfe" Command="{Binding HilfeCommand}"/>
+        </Menu>
+
+        <!--<RichTextBox ScrollViewer.VerticalScrollBarVisibility="Auto"  >
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="{Binding Document}"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>-->
+
+        <TextBox Text="{Binding Document,UpdateSourceTrigger=PropertyChanged}"/>
+
+    </DockPanel>
+</Window>
